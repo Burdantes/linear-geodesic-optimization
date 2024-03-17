@@ -54,9 +54,9 @@ def get_image_data(data_file_path, resolution=100):
 
 
 def investigating_graph(k=3):
-    path_to_graphml = f'../data/{ip_type}/graph_Europe_hourly/{threshold}/'
-    path_to_probes = f'../data/{ip_type}/'
-    path_to_latency = f'../data/{ip_type}/graph_Europe_hourly/'
+    path_to_graphml = f'{project_dir}/data/{ip_type}/{date}/graph_Europe_hourly/{threshold}/'
+    path_to_probes = f'{project_dir}/data/{ip_type}/'
+    path_to_latency = f'{project_dir}/data/{ip_type}/{date}/graph_Europe_hourly/'
     # Get all files with .graphml extension
     files = [f for f in os.listdir(path_to_graphml) if f.endswith('.graphml')]
     files_latency = [f for f in os.listdir(path_to_latency) if f.endswith('.csv') and not(f.startswith('probes'))]
@@ -146,7 +146,7 @@ def investigating_graph(k=3):
             latency_data[(src,dst)].append(lat)
     latency_changes = {edge: abs(max(latency) - min(latency)) for edge, latency in
                          latency_data.items()}
-
+    print(sorted_edges)
     # Sort the edges based on curvature change
     # sorted_edges = sorted(latency_changes.keys(), key=lambda x: latency_changes[x], reverse=True)[:k]
 
@@ -170,7 +170,7 @@ def investigating_graph(k=3):
 
 
 if __name__ == '__main__':
-    initialization_path = os.path.join(directory, 'graph_0', subdirectory_name, '0')
+    initialization_path = os.path.join(directory, f'graph_0_{threshold}', subdirectory_name, '0')
 
     time_series, name_series= investigating_graph(k=3)
     zs = []
@@ -180,6 +180,7 @@ if __name__ == '__main__':
         current_directory = os.path.join(
             directory, f'graph_{i}_{threshold}', subdirectory_name
         )
+
 
         iteration = max(
             int(name)
@@ -196,7 +197,7 @@ if __name__ == '__main__':
 
     mesh = RectangleMesh(width, height, scale)
 
-    with open(os.path.join(directory, 'graph_0', subdirectory_name, 'parameters'), 'rb') as f:
+    with open(os.path.join(directory, f'graph_0_{threshold}', subdirectory_name, 'parameters'), 'rb') as f:
         parameters = pickle.load(f)
         data_file_name = parameters['data_file_name']
         data_file_path = os.path.join('..', 'data', data_file_name)
@@ -320,4 +321,4 @@ if __name__ == '__main__':
     #                                           (manifold_count - 1) * fps + 1),
     #                               interval=1000/fps,
     #                               blit=True)
-    ani.save(os.path.join('..', 'animation_Europe.mp4'), dpi=300)
+    ani.save(os.path.join('..', f'{ip_type}_animation_Europe.mp4'), dpi=300)

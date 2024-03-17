@@ -215,3 +215,4 @@ def get_mesh_plot(mesh, title, face_colors=None, network=None, ax=None):
     ax.set_axis_off()
 
     return to_return
+

@@ -3,35 +3,42 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="/data/as_in_city/interconnection_fraction_per_continents.csv">
+        <entry key="/data/ipv4/2015-05-13/graph_Europe_hourly/latencies_11.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/data/ipv4/graph_Europe/latencies.csv">
+        <entry key="/data/ipv4/2015-05-13/graph_Europe_hourly/latencies_13.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/data/ipv4/graph_Europe_hourly/latencies_0.csv">
+        <entry key="/data/ipv4/2015-05-13/graph_Europe_hourly/latencies_22.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/data/ipv4/graph_Europe_hourly/latencies_2.csv">
+        <entry key="/data/ipv4/2015-05-13/graph_Europe_hourly/latencies_3.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="/data/ipv4/graph_Europe_hourly/latencies_3.csv">
+        <entry key="/data/ipv4/2015-05-13/graph_Europe_hourly/latencies_6.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/ipv4/2023-08-15/final_results.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -39,6 +46,41 @@
           </value>
         </entry>
         <entry key="/data/ipv4/probes_ipv4.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/ipv6/2023-08-15/graph_Europe_hourly/latencies_1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/ipv6/2023-08-15/graph_Europe_hourly/latencies_2.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/ipv6/2023-08-15/graph_Europe_hourly/latencies_3.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/ipv6/2023-08-15/graph_Europe_hourly/latencies_4.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/ipv6/2023-08-15/graph_Europe_hourly/latencies_8.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

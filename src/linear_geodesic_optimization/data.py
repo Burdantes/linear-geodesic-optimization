@@ -6,6 +6,7 @@ import typing
 
 import networkx as nx
 import numpy as np
+import pandas as pd
 from utils import *
 
 from linear_geodesic_optimization import convex_hull
@@ -201,3 +202,122 @@ def get_mesh_output(
 
     mesh.set_parameters(z)
     return mesh
+
+
+
+import numpy as np
+import potpourri3d as pp3d
+
+def compute_geodesic_distance_matrix(mesh):
+    """
+    Compute the geodesic distance matrix for a given Mesh object.
+
+    Parameters:
+    mesh (Mesh): An instance of the Mesh class.
+
+    Returns:
+    np.array: A matrix of geodesic distances between each pair of vertices.
+    """
+    # Extract vertices (V) and faces (F) from the mesh
+    V = mesh.get_coordinates()
+    F = mesh.faces_to_numpy()
+
+    # Initialize the heat method solver
+    solver = pp3d.MeshHeatMethodDistanceSolver(V, F)
+
+    # Initialize an empty matrix to store distances
+    num_vertices = V.shape[0]
+    distance_matrix = np.zeros((num_vertices, num_vertices))
+
+    # Compute distances from each vertex to all others
+    for i in range(num_vertices):
+        distances_from_i = solver.compute_distance(i)
+        distance_matrix[i, :] = distances_from_i
+
+    return distance_matrix
+
+def read_geodesic_distances(directory: str) -> np.array:
+    """
+    Read geodesic distances from a directory of output.
+    """
+    df = pd.read_csv(os.path.join(directory, 'geodesics.csv'))
+
+    # Create a new DataFrame where source and destination are switched
+    df_symmetrized = df.copy()
+    df_symmetrized.rename(columns={'source': 'destination', 'destination': 'source'}, inplace=True)
+
+    # Concatenate the original DataFrame with the symmetrized one
+    df_combined = pd.concat([df, df_symmetrized], ignore_index=True)
+
+    # Removing duplicates if any (since some pairs might already be symmetrical)
+    df_combined.drop_duplicates(subset=['source', 'destination'], inplace=True)
+    # Transforming the DataFrame
+    pivoted_df = df_combined.pivot(index='source', columns='destination', values='geodesic_distance')
+
+    # Resetting the column names
+    print(pivoted_df.shape)
+    return pivoted_df
+
+    # return distance_matrix
+
+# def get_cdist_mesh(
+#         directory: str,
+#         max_iterations: typing.Optional[int] = None,
+#         postprocessed: bool = False,
+#         longitude_range: np.float64 = 0.,
+#         latitude_range: np.float64 = 0.,
+#         intialization_path: typing.Optional[str] = None
+# ) -> np.array:
+#
+#     with open(os.path.join(directory, 'parameters'), 'rb') as f:
+#         parameters = pickle.load(f)
+#
+#         data_file_name = os.path.join('..', 'data' ,parameters['data_file_name'])
+#         width = parameters['width']
+#         height = parameters['height']
+#
+#     if intialization_path is None:
+#         intialization_path = os.path.join(directory, '0')
+#     with open(intialization_path, 'rb') as f:
+#         iteration_data = pickle.load(f)
+#         z_0 = np.array(iteration_data['mesh_parameters'])
+#
+#     iteration = max(int(name)
+#                     for name in os.listdir(directory)
+#                     if name.isdigit())
+#     if max_iterations is not None:
+#         iteration = min(iteration, max_iterations)
+#
+#     with open(os.path.join(directory, str(iteration)), 'rb') as f:
+#         iteration_data = pickle.load(f)
+#         z = np.array(iteration_data['mesh_parameters'])
+#
+#     mesh = RectangleMesh(width, height)
+#
+#     coordinates, network_edges, _, _, labels, name = read_graphml(data_file_name,
+#                                                             with_labels=True)
+#     coordinates = np.array(coordinates)
+#     network_vertices = mesh.map_coordinates_to_support(coordinates, np.float64(0.8))
+#     nearest_vertex_indices = [mesh.nearest_vertex(network_vertex).index()
+#                               for network_vertex in network_vertices]
+#     network_convex_hulls = convex_hull.compute_connected_convex_hulls(
+#         network_vertices, network_edges)
+#
+#     if postprocessed:
+#         vertices = mesh.get_coordinates()
+#         x = list(sorted(set(vertices[:,0])))
+#         y = list(sorted(set(vertices[:,1])))
+#         distances = np.array([
+#             convex_hull.distance_to_convex_hulls(
+#                 np.array([px, py]),
+#                 network_vertices,
+#                 network_convex_hulls
+#             )
+#             for px in x
+#             for py in y
+#         ])
+#         # Add a small amount of space around the convex hull
+#         # TODO: Maybe make this "smarter"
+#         # Reshape distances to be a 2D array
+#         distances = distances.reshape((len(x), len(y)))
+#         return distances

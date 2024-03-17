@@ -2,7 +2,7 @@
 
 import itertools
 import typing
-
+from more_itertools import pairwise
 import dcelmesh
 import meshutility
 import numpy as np
@@ -437,7 +437,7 @@ class Computer:
         self._interior_shared = []
         self._interior_unshared = []
         self.distance = np.float64(0.)
-        for (start, end), middle in zip(itertools.pairwise(self.path_vertices),
+        for (start, end), middle in zip(pairwise(self.path_vertices),
                                         self.path_halfedges):
             start_point, double_boundary, boundary, \
                 interior_shared, interior_unshared, end_point \

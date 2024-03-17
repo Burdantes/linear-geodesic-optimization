@@ -110,9 +110,29 @@ from tqdm import tqdm
 
 MAX_RETRIES = 3
 
+from os.path import exists
+import requests
+import os
+import json
+import pandas as pd
+
+def active_anchors_on_date(MONTH, YEAR):
+    if not(exists('ipv4/'+ YEAR+ MONTH + '01.json')):
+        r = requests.get('https://ftp.ripe.net/ripe/atlas/probes/archive/'+YEAR+'/'+MONTH+'/'+ YEAR+ MONTH + '01.json.bz2', stream=True)
+        with open('ipv4/' + YEAR+ MONTH +'01.json.bz2', 'wb') as fd:
+            for chunk in r.iter_content():
+                fd.write(chunk)
+        os.system("bunzip2  ipv4/" + YEAR+ MONTH  + '01.json.bz2')
+    probes = {d['id']: d for d in json.load(open('ipv4/' + YEAR+ MONTH  + '01.json'))['objects']}
+    df_probes = pd.DataFrame(probes).transpose()
+    active_probes = list(df_probes[(df_probes['is_anchor']) & (df_probes['status_name']=='Connected')].index)
+    return active_probes
+
 def get_rtt(id_measurement, id_source, id_target, date_start, date_stop):
     retries = 0
     while retries < MAX_RETRIES:
+        if date_start > date_stop:
+            print('?!')
         is_success, results = AtlasResultsRequest(
             msm_id=id_measurement,
             start=date_start,
@@ -128,15 +148,14 @@ def get_rtt(id_measurement, id_source, id_target, date_start, date_stop):
                 # print(f"No results for measurement {id_measurement} between probes {id_source} and {id_target}")
                 return id_source, id_target, None
 
-        if 'MaxRetryError' not in str(results):
-            print(f"Invalid query for measurement {id_measurement} between probes {id_source} and {id_target}")
+        if 'MaxRetryError' in str(results):
+            # print(f"Invalid query for measurement {id_measurement} between probes {id_source} and {id_target}")
             return id_source, id_target, None
 
         retries += 1
 
     print(f"Max retries reached for measurement {id_measurement} between probes {id_source} and {id_target}")
     return id_source, id_target, None
-
 
 def get_measurements(date_start, date_stop, probes, latencies_filename):
     with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -163,22 +182,33 @@ if __name__ == '__main__':
 
     parser.add_argument('-i', '--ip_type', type=str, required=True, help='Type of IP (e.g., ipv4, ipv6).')
     parser.add_argument('-d', '--date', type=str, required=True, help='Start date in YYYY-MM-DD format.')
+    parser.add_argument('-inter', '--interval', type=str, help='Interval time.')
     parser.add_argument('-o', '--output', type=str, required=True, help='Output file for latencies.')
-
+    parser.add_argument('-r', '--region', type=str, required=True, help='Region of the probes.')
     args = parser.parse_args()
 
     ip_type = args.ip_type
     date_start_str = args.date
+    args_interval = int(args.interval)
     output_file = args.output
+    region = args.region
 
     # Read probes_filename once and pass it to the function
-    with open(os.path.join(ip_type, f'probes_{ip_type}.csv'), 'r') as probes_file:
+    with open(os.path.join(ip_type, f'probes_{ip_type}_{region}.csv'), 'r') as probes_file:
         reader = csv.DictReader(probes_file)
         probes = [row for row in reader]
 
+    active_anchors = active_anchors_on_date(YEAR = date_start_str.split('-')[0], MONTH= date_start_str.split('-')[1])
+    probes_date = []
+    for probe in probes:
+        if int(probe['id']) in active_anchors:
+            probes_date.append(probe)
+            # probes.remove(probe)
     date_start = datetime.datetime.strptime(date_start_str, '%Y-%m-%d')
-    hour = datetime.timedelta(hours=1)
+    hour = datetime.timedelta(hours=args_interval)
 
-    for i in range(17, 24):
-        output_hourly_file = os.path.join(output_file, f"latencies_{i}.csv")  # To create hourly files.
-        get_measurements(date_start + i * hour, date_start + (i + 1) * hour, probes, output_hourly_file)
+    for i in range(0, 24):
+        if os.path.exists(os.path.join(output_file, f"latencies_{date_start + i * hour}_{date_start + (i + 1) * hour}_{region}.csv")):
+            continue
+        output_hourly_file = os.path.join(output_file, f"latencies_{date_start + i * hour}_{date_start + (i + 1) * hour}_{region}.csv")  # To create hourly files.
+        get_measurements(date_start + i * hour, date_start + (i + 1) * hour, probes_date, output_hourly_file)

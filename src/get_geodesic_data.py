@@ -44,8 +44,8 @@ if __name__ == '__main__':
         z = np.array(iteration_data['mesh_parameters'])
 
     mesh = RectangleMesh(width, height)
-
-    network_coordinates, network_edges, _, _, labels \
+    print(data.read_graphml(data_file_name, with_labels=True), len(data.read_graphml(data_file_name, with_labels=True)))
+    network_coordinates, network_edges, _, _,_, labels \
         = data.read_graphml(data_file_name, with_labels=True)
     network_vertices = mesh.map_coordinates_to_support(
         np.array(network_coordinates), np.float64(0.8))

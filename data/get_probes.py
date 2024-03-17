@@ -2,18 +2,37 @@ import csv
 
 from ripe.atlas.cousteau import AnchorRequest, ProbeRequest, MeasurementRequest
 
-continent = 'Europe'
+# continent = 'Americas'
+# ip_type = 'ipv4'
+### read the parameters from the command line
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--region', '-r', metavar='<region>', required=True)
+parser.add_argument('--ip-type', '-i', metavar='<ip-type>', required=True)
 
-ip_type = 'ipv6'
-with open('countries.csv', 'r') as countries_file:
-    reader = csv.DictReader(countries_file)
-    countries = {
-        row['ISO-alpha2 Code']: row['Country or Area']
-        for row in reader
-        if row['Region Name'] == continent
-    }
-
-with open(f'{ip_type}/probes_{ip_type}.csv', 'w') as probes_file:
+args = parser.parse_args()
+region = args.region
+ip_type = args.ip_type
+country_to_keep = None
+if region in ['Africa', 'Asia', 'Europe', 'Oceania', 'Americas']:
+    continent = region
+    with open('countries.csv', 'r') as countries_file:
+        reader = csv.DictReader(countries_file)
+        countries = {
+            row['ISO-alpha2 Code']: row['Country or Area']
+            for row in reader
+            if row['Region Name'] == continent
+        }
+else:
+    country_to_keep = region
+    with open('countries.csv', 'r') as countries_file:
+        reader = csv.DictReader(countries_file)
+        countries = {
+            row['ISO-alpha2 Code']: row['Country or Area']
+            for row in reader
+            if row['ISO-alpha2 Code'] == country_to_keep
+        }
+with open(f'{ip_type}/probes_{ip_type}_{region}.csv', 'w') as probes_file:
     csv_writer = csv.DictWriter(
         probes_file,
         [
@@ -24,16 +43,19 @@ with open(f'{ip_type}/probes_{ip_type}.csv', 'w') as probes_file:
     csv_writer.writeheader()
     for (country_code, country_name) in countries.items():
         print(country_name)
+        if country_to_keep:
+            if country_code != country_to_keep:
+                continue
         anchors = {
             anchor['probe']: anchor
             for anchor in AnchorRequest(country = country_code)
-            if not anchor['is_disabled']
+            # if not anchor['is_disabled']
         }
         probes = ProbeRequest(
             country_code = country_code,
             is_public = True,
             is_anchor = True,
-            status = 1
+            # status = 1
         )
         city_codes = set()
         city_names = set()
@@ -41,10 +63,8 @@ with open(f'{ip_type}/probes_{ip_type}.csv', 'w') as probes_file:
             # Probes should be associated to an anchor by our filtering
             # (though, this sometimes fails for some reason)
             probe_id = probe['id']
-            if probe_id not in anchors:
-                continue
-            anchor = anchors[probe_id]
-
+            print(probe)
+            # print(anchor)
             # Get the measurement ID for pings targeting this probe.
             # Some of the probes don't have associated measurements, so
             # we skip them.
@@ -70,7 +90,10 @@ with open(f'{ip_type}/probes_{ip_type}.csv', 'w') as probes_file:
                     break
             if measurement_id is None:
                 continue
-
+            if probe_id not in anchors:
+                print(probe_id, 'not in anchors')
+                # continue
+            anchor = anchors[probe_id]
             # Make a decent effort to skip multiple anchors in the same
             # city
             city_code = anchor['fqdn'].split('-')[1]
@@ -93,3 +116,4 @@ with open(f'{ip_type}/probes_{ip_type}.csv', 'w') as probes_file:
                 ip_type: address,
                 'measurement_id': measurement_id,
             })
+

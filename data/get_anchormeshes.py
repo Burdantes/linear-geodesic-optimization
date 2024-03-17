@@ -42,7 +42,7 @@ def fetch_data_from_url(url):
         return json.loads(response.read().decode("utf-8"))
 
 
-def infer_anchors(page_num, start_time, end_time, protocol='IPv4'):
+def infer_anchors(page_num, date_start_str, date_end_str, protocol='IPv4'):
     """Fetch and process anchor measurements from the RIPE Atlas API."""
     date_start = datetime.datetime.strptime(date_start_str, '%Y-%m-%d')
     # date_end = datetime.datetime.strptime(date_end_str, '%Y-%m-%d')
@@ -61,6 +61,7 @@ def infer_anchors(page_num, start_time, end_time, protocol='IPv4'):
     res = defaultdict(list)
     if not anchor_data['results']:
         return None  # return a flag indicating no results
+    number_of_measurements_per_source_dst = defaultdict(lambda: defaultdict(lambda : 0))
     peers_per_asn, customer_cone_per_asn, ripe_probes, ip2asn, asn_per_ixp_ip, city_by_ip, org_per_asn = loading_metadata()
     for measurement in tqdm(anchor_data['results']):
         if measurement['type'] == 'traceroute' and measurement['is_mesh']:
@@ -72,7 +73,6 @@ def infer_anchors(page_num, start_time, end_time, protocol='IPv4'):
                     if measurement_data['af'] != ip_type_num[ip_type]:
                         continue
                     split_result = measurement_data['result'].split('?')
-                    print(split_result)
                     # timebound_url = split_result[0] + f"?start_time={int(start_time)}&?stop_time={int(end_time)}format=txt"
                     timebound_url = split_result[0] + f"?&start={int(start_time)}&stop={int(end_time)}&format=txt"
                     loc_res = {}
@@ -81,17 +81,23 @@ def infer_anchors(page_num, start_time, end_time, protocol='IPv4'):
                         if protocol in measurement_data['description']:
                             for (i, atlas_result) in tqdm(enumerate(atlas_res.readlines())):
                                 atlas_data = Result.get(atlas_result.decode("utf-8"))
-                                print(atlas_data)
                                 # map the dst address to the probe
                                 prb_id, ip_path, src_address,dst_address, hop_path = \
                                     atlas_data.probe_id, atlas_data.ip_path, atlas_data.source_address, atlas_data.destination_address, atlas_data.hops
                                 # hop_path = [hop[0] for hop in hop_path]
+                                number_of_measurements_per_source_dst[src_address][dst_address] += 1
+
                                 list_of_ttl = ['*' for i in range(0, max_ttl)]
                                 list_of_rtt = ['*' for i in range(0, max_ttl)]
                                 list_of_ip = ['*' for i in range(0, max_ttl)]
                                 for hop in hop_path:
-                                    print(hop.packets[0].raw_data)
-                                    if 'x' in hop.packets[0].raw_data:
+                                    try:
+                                        if 'x' in hop.packets[0].raw_data:
+                                            continue
+                                        if 'from' not in hop.packets[0].raw_data:
+                                            print(hop)
+                                            continue
+                                    except:
                                         continue
                                     ip = hop.packets[0].raw_data['from']
                                     rtt = hop.packets[0].raw_data['rtt']
@@ -115,13 +121,17 @@ def infer_anchors(page_num, start_time, end_time, protocol='IPv4'):
                                 # for i in probes['address_v4']:
                                 #     print(i)
                                 #     print(trie.search_best(i).prefix)
-                                ip_path = [ip[0] for ip in ip_path]
+                                try:
+                                    ip_path = [ip[0] for ip in ip_path]
+                                except Exception as e :
+                                    print('Check this one')
+                                    print(e)
                                 loc_res['ip_path'] = ip_path
                                 as_path = []
                                 org_path = []
                                 geolocated_path = []
-                                if len(ip_path) != 1:
-                                    print('?!')
+                                # if len(ip_path) != 1:
+                                #     print('?!')
                                 for ip in ip_path:
                                     if ip in asn_per_ixp_ip.keys():
                                         as_path.append(asn_per_ixp_ip[ip][0])
@@ -168,6 +178,7 @@ def infer_anchors(page_num, start_time, end_time, protocol='IPv4'):
                                         if org_per_asn[as_path[i]] == org_per_asn[as_path[i - 1]]:
                                             as_path[i] = as_path[i - 1]
     # # Save the global dictionary as a JSON file
+    print(number_of_measurements_per_source_dst)
     with open(f'../data/{ip_type}/anchor_meshes_traceroutes/anchor_meshes{page_num}.json',
               'w') as outfile:
         json.dump(res, outfile)
@@ -200,7 +211,6 @@ if __name__ == '__main__':
         if result is None:  # if no results are returned, break the loop
             break
         page += 1
-        break
 
     # Convert to latency matrix
     # convert_to_latencymatrix('Datasets/AnchorMeasurements/', 'path_to_output.csv')

@@ -71,6 +71,29 @@ class Mesh(linear_geodesic_optimization.mesh.mesh.Mesh):
 
         return topology
 
+    def faces_to_numpy(self):
+        """
+        Convert the mesh's faces to a numpy array format.
+
+        Returns:
+        np.array: An Mx3 integer numpy array of faces, with 0-based vertex indices.
+        """
+        # Assuming self._topology stores faces in a list or similar structure
+        faces_list = self._topology
+        faces_array = []
+        # Replace with appropriate method to retrieve all faces
+        for face in faces_list.faces():
+            # Collecting the vertex indices for this face
+            vertices_indices = [vertex.index() for vertex in face.vertices()]
+            # Ensure each face is a triangle (3 vertices)
+            if len(vertices_indices) == 3:
+                faces_array.append(vertices_indices)
+            else:
+                raise Exception(f"Non-triangular face found with vertices: {vertices_indices}")
+
+        return np.array(faces_array, dtype=int)
+
+
     def _get_coordinates(self) -> npt.NDArray[np.float64]:
         coordinates = np.zeros((self._width * self._height, 2))
 
@@ -151,6 +174,19 @@ class Mesh(linear_geodesic_optimization.mesh.mesh.Mesh):
                 / (1 + np.exp(self._parameters))**2
         return self._partials
 
+    def get_triangulation(self):
+        triangulation = []
+        for i in range(self._width - 1):
+            for j in range(self._height - 1):
+                v00 = i * self._height + j
+                v01 = i * self._height + j + 1
+                v10 = (i + 1) * self._height + j
+                v11 = (i + 1) * self._height + j + 1
+
+                triangulation.append([v00, v11, v01])
+                triangulation.append([v00, v10, v11])
+
+        return np.array(triangulation)
     def get_fat_edges(
         self,
         vertices: npt.NDArray[np.float64],

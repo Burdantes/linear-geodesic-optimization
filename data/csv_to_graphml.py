@@ -10,6 +10,16 @@ import numpy as np
 import cluster_probes
 import utility
 
+import pandas as pd
+import gudhi as gd
+from sklearn import manifold
+import json
+import sys
+sys.path[0] = '../src/'
+from utils import *
+import matplotlib.pyplot as plt
+
+# project_dir = '/Users/loqmansalamatian/Documents/GitHub/linear-geodesic-optimization/'
 def minimize_id_removal(rtt_violation_list):
     id_counts = {}
 
@@ -65,8 +75,9 @@ def get_graph(
                 city=row['city'], country=row['country'],
                 lat=float(row['latitude']), long=float(row['longitude'])
             )
-
+    distance_matrix = {}
     # Get the edges
+    final_results_csv = []
     with open(latencies_filename) as latencies_file:
         latencies_reader = csv.DictReader(latencies_file)
         for row in latencies_reader:
@@ -77,6 +88,9 @@ def get_graph(
             lat_target = graph.nodes[id_target]['lat']
             long_target = graph.nodes[id_target]['long']
             rtt = row['rtt']
+            final_results_csv.append([id_source, id_target, lat_source, long_source, lat_target, long_target, graph.nodes[id_target]['city'], graph.nodes[id_target]['city'], utility.get_GCD_latency(
+                [lat_source, long_source],
+                [lat_target, long_target]), rtt])
             if rtt is None or rtt == '':
                 continue
             rtt = float(rtt)
@@ -92,7 +106,10 @@ def get_graph(
                 print(id_source, id_target, graph.nodes[id_source], graph.nodes[id_target], rtt, utility.get_GCD_latency(
                     [lat_source, long_source],
                     [lat_target, long_target]))
-
+            # Save the distance matrix for the persistence diagram
+            distance_matrix[f'{id_source} - {id_target}'] = rtt - utility.get_GCD_latency(
+                [lat_source, long_source],
+                [lat_target, long_target])
             # Only add edges satisfying the cutoff requirement
             if (
                 rtt - utility.get_GCD_latency(
@@ -105,7 +122,9 @@ def get_graph(
                 if ((id_source, id_target) not in graph.edges
                         or graph.edges[id_source,id_target]['rtt'] > rtt):
                     graph.add_edge(id_source, id_target, weight=1., rtt=rtt)
-
+    pd.DataFrame(final_results_csv, columns=['source_id', 'target_id', 'lat_source', 'long_source', 'lat_target', 'long_target', 'city_source', 'city_target', 'distance', 'rtt']).to_csv(f'{project_dir}/data/{ip_type}/{date}/final_results.csv', index=False)
+    with open(f'{project_dir}/data/{ip_type}/{date}/distance_matrix.json', 'w') as f:
+        json.dump(distance_matrix, f)
     # Delete nodes with inconsistent geolocation
     nodes_to_delete = minimize_id_removal(rtt_violation_list)
 
@@ -122,6 +141,7 @@ def get_graph(
     # Compute the curvatures. This adds attributes called
     # `ricciCurvature` to the vertices and edges of the graph
     orc = OllivierRicci(graph, weight='weight', alpha=0.)
+    print(graph, latencies_filename)
     graph = orc.compute_ricci_curvature()
 
     # Delete extraneous edge data
@@ -137,6 +157,41 @@ def get_graph(
 
     return graph
 
+def translating_distance_matrix(data):
+
+    # Parse the keys to find unique points
+    points = set()
+    for key in data.keys():
+        point1, point2 = key.split(' - ')
+        points.add(point1)
+        points.add(point2)
+
+    # Create a list from the set of points
+    points = sorted(list(points))
+
+    # Initialize a DataFrame with zeros and points as indices and columns
+    distance_matrix = pd.DataFrame(0, index=points, columns=points, dtype=float)
+
+    # Populate the DataFrame
+    for key, value in data.items():
+        point1, point2 = key.split(' - ')
+        distance_matrix.at[point1, point2] = value
+        distance_matrix.at[point2, point1] = value
+    return distance_matrix
+
+def persistance_diagram(distance_matrix):
+    skeleton_protein0 = gd.RipsComplex(
+        distance_matrix=distance_matrix.values,
+        max_edge_length=60,
+    )
+
+    Rips_simplex_tree_protein0 = skeleton_protein0.create_simplex_tree(max_dimension=3)
+
+    BarCodes_Rips0 = Rips_simplex_tree_protein0.persistence()
+
+    gd.plot_persistence_diagram(BarCodes_Rips0);
+    plt.savefig(f'{project_dir}/plot/barcodes/rips_{ip_type}_{date}.png')
+
 if __name__ == '__main__':
     # Parse arugments
     parser = argparse.ArgumentParser()
@@ -145,6 +200,7 @@ if __name__ == '__main__':
     parser.add_argument('--ip-type', '-i', metavar='<ip-type>',required=True)
     # parser.add_argument('--probes-file', '-p', metavar='<filename>',
     #                     dest='probes_filename', required=True)
+    parser.add_argument('--region', '-r', metavar='<region>', required=True)
     parser.add_argument('--epsilon', '-e', metavar='<epsilon>',
                         dest='epsilon', type=int, required=False)
     parser.add_argument('--output', '-o', metavar='<basename>',
@@ -152,7 +208,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     latencies_filename = args.latencies_filename
     ip_type = args.ip_type
-    probes_filename = f'probes_{ip_type}.csv'
+    region = args.region
+    probes_filename = f'{ip_type}/probes_{ip_type}_{region}.csv'
     epsilons = [args.epsilon]
     if args.epsilon is None:
         epsilons = list(range(1, 21))
@@ -160,5 +217,8 @@ if __name__ == '__main__':
 
     for epsilon in epsilons:
         graph = get_graph(probes_filename, latencies_filename, epsilon,
-                          300000, 2)
+                          500000, 4)
         nx.write_graphml(graph, f'{output_basename}.graphml')
+    distance_matrix = json.load(open(f'{project_dir}/data/{ip_type}/{date}/distance_matrix.json', 'r'))
+    distance_matrix = translating_distance_matrix(distance_matrix)
+    persistance_diagram(distance_matrix)

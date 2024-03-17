@@ -21,6 +21,7 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 6624,Chita,Russian Federation,52.0295,113.4985,ru-cta-as58067.anchors.atlas.ripe.net,2a0b:97c0:0:110::2,23059819
 6936,Khabarovsk,Russian Federation,48.4705,135.0585,ru-khv-as57695.anchors.atlas.ripe.net,2a0b:4342:4000:141:5054:ff:fe0e:b302,29117520
 7066,Yaroslavl,Russian Federation,57.6405,39.8805,ru-iar-as49558.anchors.atlas.ripe.net,2a0d:8540::29,38212872
+7305,Banská Bystrica,Slovakia,48.7495,19.1375,sk-bby-as49798-client.anchors.atlas.ripe.net,2a0c:c500:fe04::f0,66073019
 6414,Mykolayiv,Ukraine,46.9795,31.9875,ua-nlv-as41018.anchors.atlas.ripe.net,2001:67c:25dc:2::128:18,17332737
 6829,Dnepropetrovsk,Ukraine,48.4715,35.0585,ua-dnk-as3326.anchors.atlas.ripe.net,2a01:758:ffe8:3::1,26382916
 6844,Kyiv,Ukraine,50.4495,30.4495,ua-iev-as3326.anchors.atlas.ripe.net,2a01:758:fff4:4::2,26736067
@@ -38,16 +39,18 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 6251,Tampere,Finland,61.4875,23.7595,fi-tmp-as719.anchors.atlas.ripe.net,2001:998:13:1b2::2,7714921
 6658,Oulu,Finland,65.0115,25.4695,fi-oul-as20904.anchors.atlas.ripe.net,2a00:1a58:0:f247::2,23209513
 6734,Tuusula,Finland,60.3395,25.0285,fi-tuu-as24940-client.anchors.atlas.ripe.net,2a01:4f9:c010:5feb::1,23913352
+7300,Kaustinen,Finland,63.5475,23.6875,fi-kst-as199087.anchors.atlas.ripe.net,2a03:7c00:2:a::74,64812611
+7329,Ulvila,Finland,61.5015,21.8885,fi-ulv-as49282.anchors.atlas.ripe.net,2a03:e580:3::c,68503410
 6740,Reykjavík,Iceland,64.1475,-21.9105,is-rey-as1850.anchors.atlas.ripe.net,2001:67c:6c:d59::17,23964316
 6965,Dublin,Ireland,53.3295,-6.3695,ie-dub-as1213.anchors.atlas.ripe.net,2001:770:1c:11::c101:c98c,29539108
 7210,Cork,Ireland,51.8975,-8.5125,ie-ork-as42953.anchors.atlas.ripe.net,2a03:ac1:1:341::4,53141129
-6198,Riga,Latvia,56.9515,24.1115,lv-rix-as52048.anchors.atlas.ripe.net,2a02:4840:2:219::225,3917122
+7324,Douglas,Isle of Man,54.1395,-4.5015,im-dgs-as201898.anchors.atlas.ripe.net,2a02:7260:900:14:185:60:88:254,68275871
+6351,Riga,Latvia,56.9675,24.1695,lv-rix-as24921.anchors.atlas.ripe.net,2a03:ec00:b008:3a11::5,11710719
 6245,Vilnius,Lithuania,54.6995,25.2595,lt-vno-as21412.anchors.atlas.ripe.net,2a00:7600:0:eeee::1f,6976176
 6942,Siauliai,Lithuania,55.9185,23.2895,lt-sqq-as16125.anchors.atlas.ripe.net,2a02:ae00:0:1::3,29226880
-6269,Oslo,Norway,59.9415,10.8305,no-osl-as57963.anchors.atlas.ripe.net,2a00:c440:1337:6e52::2,7969763
 6864,Stjørdal,Norway,63.4595,10.9805,no-stj-as49271.anchors.atlas.ripe.net,2001:678:dd0::54,27216507
+6868,Oslo,Norway,59.9215,10.7405,no-osl-as207788.anchors.atlas.ripe.net,2a0f:b6c0:d102:1::6,27262113
 7171,Førde,Norway,61.4475,5.8505,no-fde-as35132.anchors.atlas.ripe.net,2a02:1660:4000:2a::2,48876259
-7173,Bodø,Norway,67.2785,14.4605,no-boo-as29695-client.anchors.atlas.ripe.net,2a00:e08:4000:12ef::2,49130794
 6049,Stockholm,Sweden,59.3315,18.0595,se-sto-as8674.anchors.atlas.ripe.net,2a01:3f0:0:60::5,1589865
 6350,Malmö,Sweden,55.5975,13.0395,se-mma-as39351.anchors.atlas.ripe.net,2a03:1b20:1:f303::2:1,11700668
 6441,Lund,Sweden,55.6875,13.2095,se-lud-as60396.anchors.atlas.ripe.net,2001:67c:2e74:1::21,18188383
@@ -66,12 +69,12 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 6695,Didcot,United Kingdom of Great Britain and Northern Ireland,51.5195,-0.6185,uk-did-as786.anchors.atlas.ripe.net,2001:630:3c:f804::a,23720874
 6716,Bolton,United Kingdom of Great Britain and Northern Ireland,53.5805,-2.4425,uk-blt-as25376.anchors.atlas.ripe.net,2a00:1b98:1::6,23795659
 7125,Leeds,United Kingdom of Great Britain and Northern Ireland,53.7895,-1.5415,uk-lba-as33920.anchors.atlas.ripe.net,2a00:1a80:2000:1102:141:170:22:14,43482575
-7132,Cardiff,United Kingdom of Great Britain and Northern Ireland,51.4985,-3.1615,uk-cdf-as207960.anchors.atlas.ripe.net,2a0d:1a40:7900:5::3,44337952
 7254,Coventry,United Kingdom of Great Britain and Northern Ireland,52.3995,-1.5805,uk-cvt-as142594.anchors.atlas.ripe.net,2001:df7:1d81:9::a,58401253
 6295,Tirana,Albania,41.3195,19.8215,al-tia-as42409.anchors.atlas.ripe.net,2001:7f9:4::10,9229277
 6654,Zenica,Bosnia and Herzegovina,44.1995,17.8995,ba-zca-as9146.anchors.atlas.ripe.net,2a02:27b0:2004::220,23184712
 6327,Zagreb,Croatia,45.7905,15.9685,hr-zag-as2108.anchors.atlas.ripe.net,2001:b68:d::28,10579567
 6741,Athens,Greece,38.0775,23.6995,gr-ath-as56457.anchors.atlas.ripe.net,2a06:5780:2244::4a,23964843
+7280,Lamia,Greece,38.8975,22.4315,gr-lam-as211186.anchors.atlas.ripe.net,2a0c:2580:1::232,63028210
 6094,Milan,Italy,45.4795,9.1015,it-mil-as16004.anchors.atlas.ripe.net,2001:1ac0:0:200:0:a5d1:6004:27,1791294
 6235,Rome,Italy,41.8995,12.5085,it-rom-as24796.anchors.atlas.ripe.net,2001:7f8:10:f00c::210,6937690
 6316,Torino,Italy,45.0905,7.6575,it-trn-as12779.anchors.atlas.ripe.net,2001:1418:10:a::44,10206813
@@ -85,6 +88,7 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 7085,Bolzano,Italy,46.4795,11.3315,it-bzo-as49088.anchors.atlas.ripe.net,2a07:3d00::8,40071803
 7110,Pescara,Italy,42.4375,14.1975,it-psr-as21034.anchors.atlas.ripe.net,2a00:1be0:0:99::197,41920949
 7181,Trieste,Italy,45.7075,13.7315,it-trs-as204471.anchors.atlas.ripe.net,2a12:d8c0:105a:9001::7,50181689
+7295,Carini,Italy,38.1695,13.2215,it-rni-as34428.anchors.atlas.ripe.net,2a06:7d40:349::2,64563537
 6276,Skopje,North Macedonia,42.0005,21.4105,mk-skp-as5379.anchors.atlas.ripe.net,2a02:e48:10:b::2,8401353
 7212,Gevgelija,North Macedonia,41.1485,22.4975,mk-gvl-as211450.anchors.atlas.ripe.net,2a10:e340:2:0:dc:18ff:fef2:ca43,53163845
 6328,Lisboa,Portugal,38.7915,-9.1215,pt-lis-as62416.anchors.atlas.ripe.net,2a00:c560:c0c0:1a1a::249,10590230
@@ -94,6 +98,7 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 6541,Ljubljana,Slovenia,46.0775,14.4895,si-lju-as42207.anchors.atlas.ripe.net,2a0b:15c0:abcd:1::abcd:ac05,21049935
 6352,Barcelona,Spain,41.3885,2.1095,es-bcn-as13041.anchors.atlas.ripe.net,2001:40b0:2::2,11863564
 6604,Madrid,Spain,40.4895,-3.6925,es-mad-as15954.anchors.atlas.ripe.net,2a01:a940:445:d::1,22726791
+6732,Leganes,Spain,40.3285,-3.7715,es-leg-as766-client.anchors.atlas.ripe.net,2001:720:410:3035:200:24ff:fed1:5dcc,23910666
 7086,Alcalá de Henares,Spain,40.5105,-3.3385,es-acl-as15699.anchors.atlas.ripe.net,2a00:6640:e:101::a,40076470
 7089,Cerdanyola del Vallès,Spain,41.4915,2.1215,es-crd-as15699.anchors.atlas.ripe.net,2a01:1c8:e:101::a,40182742
 6042,Vienna,Austria,48.2085,16.3695,at-vie-as1120.anchors.atlas.ripe.net,2001:628:2000:feed::2,1437287
@@ -105,6 +110,7 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 7083,Innsbruck,Austria,47.2685,11.4315,at-inn-as31510.anchors.atlas.ripe.net,2a02:6180:0:2500::2,39587021
 6635,Leuven,Belgium,50.8495,4.7185,be-leu-as39923.anchors.atlas.ripe.net,2a04:6480:204::2,23120742
 6737,Zaventem,Belgium,50.8805,4.4985,be-zav-as39923.anchors.atlas.ripe.net,2a02:2a08:214::2,23957226
+6937,Louvain-la-Neuve,Belgium,50.6705,4.6085,be-lln-as2611-client.anchors.atlas.ripe.net,2001:6a8:308f:8:0:82ff:fe68:e49f,29135720
 7005,Bruxelles,Belgium,50.8195,4.3675,be-bru-as204059.anchors.atlas.ripe.net,2001:913:1000:200::29,30523747
 7101,Antwerp,Belgium,51.1775,4.4175,be-anr-as2611-client.anchors.atlas.ripe.net,2001:6a8:500:e006::132,41386087
 6025,Strasbourg,France,48.5795,7.7485,fr-sxb-as8839.anchors.atlas.ripe.net,2001:810:0:14::239,1042406
@@ -130,11 +136,12 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 7071,Reims,France,49.2275,4.0305,fr-rhe-as21409.anchors.atlas.ripe.net,2a00:c70:1:80:93:97:193:3,38827727
 7122,Gif-sur-Yvette,France,48.7085,2.1585,fr-gfy-as204515.anchors.atlas.ripe.net,2a0c:700:2::ff:fe:1602,42717442
 7136,Grenoble,France,45.2105,5.6885,fr-gnb-as1942-client.anchors.atlas.ripe.net,2001:660:530e:100::151,45259766
+7286,Velizy-Vilacoublay,France,48.7905,2.2115,fr-vzu-as209428.anchors.atlas.ripe.net,2a09:5ec0:999::135,63477666
+7293,MARSEILLE,France,43.2885,5.5015,fr-mrs-as211997.anchors.atlas.ripe.net,2a10:d780:cccc::2,64348798
 6081,Nuremberg,Germany,49.4275,11.0215,de-nue-as33988.anchors.atlas.ripe.net,2001:67c:14c:12f::46,1768118
-6117,Berlin,Germany,52.5205,13.3975,de-ber-as20647.anchors.atlas.ripe.net,2a02:f28:1:7::2,1906515
-6202,Braunschweig,Germany,52.2785,10.5375,de-bwe-as680.anchors.atlas.ripe.net,2001:638:602::20:2,4377626
 6213,Düsseldorf,Germany,51.2285,6.7675,de-dus-as12676.anchors.atlas.ripe.net,2a02:4c00:0:4014::2,4480008
 6239,Hamburg,Germany,53.5515,10.0485,de-ham-as12731.anchors.atlas.ripe.net,2001:868:100:3401::4,6952197
+6246,Berlin,Germany,52.5005,13.3695,de-ber-as25291.anchors.atlas.ripe.net,2a00:7fc0:4000:16::4,7006244
 6250,Karlsruhe,Germany,48.9975,8.3895,de-kae-as8560.anchors.atlas.ripe.net,2001:8d8:0:3::2e,7708591
 6272,Grünwald,Germany,48.0585,11.5605,de-gud-as206549.anchors.atlas.ripe.net,2a0a:d480:1:1::200,7990093
 6313,Frankfurt am Main,Germany,50.1285,8.5975,de-fra-as203329.anchors.atlas.ripe.net,2a07:e80:0:10::2,10103388
@@ -144,6 +151,7 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 6385,Mannheim,Germany,49.5095,8.5315,de-mhg-as21473.anchors.atlas.ripe.net,2a00:1e80:8:14::42,15688941
 6387,Mutterstadt,Germany,49.4305,8.3615,de-mdt-as15945.anchors.atlas.ripe.net,2a02:24d8:7:16::42,15708035
 6396,Munchen,Germany,48.1405,11.5315,de-muc-as5539.anchors.atlas.ripe.net,2001:608:3:337::1,16423075
+6439,Frankfurt,Germany,50.1015,8.5885,de-ffo-as55002.anchors.atlas.ripe.net,2604:e180:de03::5,18114642
 6531,Bremen,Germany,53.0775,8.7685,de-bre-as50629.anchors.atlas.ripe.net,2a00:c380:1000:2::235,20746259
 6548,Stuttgart,Germany,48.7115,9.1695,de-str-as12374.anchors.atlas.ripe.net,2001:14b0:0:18::2,21321291
 6550,Espelkamp,Germany,52.3775,8.6195,de-esp-as15817.anchors.atlas.ripe.net,2a03:2a00:0:4::200,21450575
@@ -154,7 +162,6 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 6761,Furtwangen,Germany,48.0475,8.2105,de-fwn-as553-client.anchors.atlas.ripe.net,2001:7c0:f00:3c03::2,24449416
 6787,Wolfsburg,Germany,52.4305,10.7915,de-wob-as9136.anchors.atlas.ripe.net,2a01:581:1:8::4,25219118
 6789,Hassfurt,Germany,50.0315,10.5215,de-has-as44973.anchors.atlas.ripe.net,2a02:218:2:232::55,25228302
-6806,Norderstedt,Germany,53.7005,9.9875,de-not-as61157.anchors.atlas.ripe.net,2a00:74c0:0:2::20,25639377
 6812,Garching bei München,Germany,48.2585,11.6675,de-gbm-as56357.anchors.atlas.ripe.net,2a00:4700:0:5::4,25904004
 6813,Ettlingen,Germany,48.9485,8.3875,de-ett-as202040.anchors.atlas.ripe.net,2a04:d140:1::3,25910852
 6814,Köln,Germany,50.9095,7.0575,de-cgn-as61157.anchors.atlas.ripe.net,2a02:cbf3:0:a::11,25984934
@@ -173,8 +180,11 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 7096,Bautzen,Germany,51.1905,14.3515,de-bau-as47295.anchors.atlas.ripe.net,2a03:2400::1:1,41340320
 7151,Herford,Germany,52.1175,8.6495,de-hrd-as8879.anchors.atlas.ripe.net,2a00:1348::1d:0:0:1,46900710
 7208,Ludwigshafen am Rhein,Germany,49.4915,8.4175,de-lwr-as9022-client.anchors.atlas.ripe.net,2a00:e58:0:1a::2,52509031
+7279,Leipzig,Germany,51.3715,12.4705,de-lej-as200297.anchors.atlas.ripe.net,2a05:1740:10:194::a,62913869
+7304,Luebeck,Germany,53.8695,10.6775,de-lbc-as29505.anchors.atlas.ripe.net,2a07:6c40:1:cc::a,66031681
 6249,Esch-sur-Alzette,Luxembourg,49.5015,5.9495,lu-ezt-as2602.anchors.atlas.ripe.net,2001:a18:0:409::2,7707777
 6518,Bettembourg,Luxembourg,49.5115,6.1075,lu-bet-as51405.anchors.atlas.ripe.net,2a02:2290:2:48::71,20353531
+6642,Luxembourg,Luxembourg,49.5785,6.1095,lu-lux-as199524.anchors.atlas.ripe.net,2a03:90c0:83:2908::12,23154967
 6082,Amsterdam,Netherlands (Kingdom of the),52.3485,4.8315,nl-ams-as12041.anchors.atlas.ripe.net,2001:500:f1:500::231,1769338
 6237,Ede,Netherlands (Kingdom of the),52.0305,5.6185,nl-ede-as12859.anchors.atlas.ripe.net,2001:7b8:3:37:213:136:12:209,6943122
 6267,Veendam,Netherlands (Kingdom of the),53.1105,6.8805,nl-vdm-as49784.anchors.atlas.ripe.net,2a04:3640::6,7931632
@@ -189,7 +199,9 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 6862,Zuidbroek,Netherlands (Kingdom of the),53.1685,6.8605,nl-zbo-as208751.anchors.atlas.ripe.net,2a06:e881:6700:5::10,27206568
 6863,Dronten,Netherlands (Kingdom of the),52.5385,5.7005,nl-dro-as12414.anchors.atlas.ripe.net,2001:9e0:417:1::2,27211639
 6877,Steenbergen,Netherlands (Kingdom of the),51.5905,4.3105,nl-ste-as208725.anchors.atlas.ripe.net,2a0e:f780::6,27708734
+7135,Delft,Netherlands (Kingdom of the),51.9895,4.3785,nl-dft-as41887.anchors.atlas.ripe.net,2a00:d01:ff:905:94:228:142:117,45196123
 7231,Utrecht,Netherlands (Kingdom of the),52.0875,5.0085,nl-utc-as200232.anchors.atlas.ripe.net,2a13:6ec0:e001:82:71::,54618418
+7302,Alphen aan den Rijn,Netherlands (Kingdom of the),52.1285,4.6275,nl-apn-as61349.anchors.atlas.ripe.net,2a04:4341:1:3::2,65519650
 6268,Zürich,Switzerland,47.3915,8.5205,ch-zrh-as34288.anchors.atlas.ripe.net,2001:4b20:ca1f::8,7934268
 6390,Glattbrugg,Switzerland,47.4275,8.5615,ch-gtg-as20612.anchors.atlas.ripe.net,2001:67c:20ac::190,15766248
 6445,Dübendorf,Switzerland,47.3995,8.6195,ch-drf-as61174.anchors.atlas.ripe.net,2a00:a680:100:11::157,18358289
@@ -202,4 +214,3 @@ id,city,country,latitude,longitude,fqdn,ipv6,measurement_id
 6847,Geneve,Switzerland,46.2005,6.1395,ch-gva-as62371.anchors.atlas.ripe.net,2a05:2701:f00::ec,26835785
 7073,Stabio,Switzerland,45.8485,8.9505,ch-sbo-as202032.anchors.atlas.ripe.net,2a02:4460:1:1::15,38998055
 7149,Reichenburg,Switzerland,47.1715,8.9795,ch-rbg-as3303.anchors.atlas.ripe.net,2001:918:cafe::78,46831278
-7258,Richterswil,Switzerland,47.2115,8.7095,ch-ric-as207143-client.anchors.atlas.ripe.net,2001:1680:101:83a::28,59626357
